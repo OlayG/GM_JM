@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="com.example.gm_challenge.util.UtilExtKt" />
+
+        <variable
+            name="viewModel"
+            type="com.example.gm_challenge.viewmodel.ArtistViewModel" />
+
+        <variable
+            name="adapter"
+            type="com.example.gm_challenge.adapter.ArtistAdapter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:padding="15dp"
+        android:id="@+id/main"
+        tools:context=".view.HomeFragment">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_field_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:setErrorMessage="@{viewModel.artists}"
+            app:resetErrorEnabled="@{viewModel.searchQuery.empty}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btn_search">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@={viewModel.searchQuery}"
+                app:onEditorEnterAction="@{viewModel.fetch}"
+                android:imeOptions="actionGo"
+                android:hint="@string/enter_artist"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search"
+            app:onButtonClicked="@{viewModel.fetch}"
+            app:layout_constraintTop_toBottomOf="@+id/text_field_layout"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            app:setAdapter="@{adapter}"
+            app:isVisible="@{UtilExtKt.isSuccess(viewModel.artists)}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/btn_search"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/artist_item"/>
+
+        <ProgressBar
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isVisible="@{UtilExtKt.isLoading(viewModel.artists)}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
