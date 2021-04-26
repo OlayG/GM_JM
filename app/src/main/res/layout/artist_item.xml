@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            app:formatPrice="@{artist.trackPrice}"
+            android:text="@{artist.trackPrice.toString()}"
             app:layout_constraintTop_toBottomOf="@+id/tv_track_name"
             app:layout_constraintStart_toEndOf="@+id/tv_date"
             tools:text="1.29"/>
